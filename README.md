@@ -6,7 +6,7 @@ A patch for `@anthropic-ai/claude-agent-sdk`'s `cli.js` that lets Claude Code se
 
 ## What it does
 
-Adds a socket server at `~/.claude/sockets/{sessionId}.sock` that accepts newline-delimited messages (JSON or plain text) and feeds them into the internal message queue. Messages are processed one at a time, sequentially.
+Adds a socket server at `~/.claude/sockets/{agentSessionId}.sock` that accepts newline-delimited messages (JSON or plain text) and feeds them into the internal message queue. Messages are processed one at a time, sequentially.
 
 ## Usage
 
