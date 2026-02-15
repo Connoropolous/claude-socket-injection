@@ -1,8 +1,8 @@
-# Claude Code Socket Injection
+# Claude Code Notifications for Agents
 
-A patch for `@anthropic-ai/claude-agent-sdk`'s `cli.js` that adds a Unix domain socket server to interactive Claude Code sessions, allowing external processes to inject prompts.
+A patch for `@anthropic-ai/claude-agent-sdk`'s `cli.js` that lets Claude Code sessions subscribe to external events and receive them as prompts.
 
-## [View the diff](https://github.com/Connoropolous/claude-socket-injection/compare/03d21f1..b8e03d0)
+## [View the diff](https://github.com/Connoropolous/claude-notifications-for-agents/compare/03d21f1..b8e03d0)
 
 ## What it does
 
