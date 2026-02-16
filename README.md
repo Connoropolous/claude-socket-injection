@@ -9,7 +9,8 @@ Receive real-time webhooks from GitHub, Linear, Stripe, and other services direc
 1. A macOS menu bar app runs a local HTTP server
 2. A Cloudflare Tunnel exposes it to the internet
 3. External services send webhooks to your tunnel URL
-4. Events are delivered into your Claude Code session as prompts
+4. Signatures are verified (HMAC-SHA256) to ensure only authentic events are accepted
+5. Events are delivered into your Claude Code session as prompts — as if a user typed them
 
 ## Quick Start
 

@@ -340,8 +340,11 @@ final class MCPServer {
                     description: "Update an existing webhook subscription. Only provided fields are changed. Processing order: jq_filter runs first on the raw payload to decide accept/reject, then summary_filter runs to extract a compact summary for injection.",
                     properties: [
                         "subscription_id": propertyDef(type: "string", description: "The subscription ID to update"),
-                        "jq_filter": propertyDef(type: "string", description: "jq expression applied to the raw payload BEFORE processing. Acts as a gate: if the result is false/null/empty the event is silently dropped (not injected, not logged). Use select() expressions to filter in matching events, e.g. 'select(.action == \"opened\")'. Runs before summary_filter."),
-                        "summary_filter": propertyDef(type: "string", description: "jq expression to extract a compact summary from the raw payload for injection. Runs AFTER jq_filter. The full payload is always stored and retrievable via get_event_payload. E.g. '{action: .action, title: .pull_request.title}'"),
+                        "hmac_secret": propertyDef(type: "string", description: "HMAC secret for signature verification"),
+                        "hmac_header": propertyDef(type: "string", description: "HTTP header containing the HMAC signature (e.g. X-Hub-Signature-256)"),
+                        "prompt": propertyDef(type: "string", description: "Prompt text prepended to the payload when delivering events"),
+                        "jq_filter": propertyDef(type: "string", description: "jq expression applied to the raw payload BEFORE processing. Acts as a gate: if the result is false/null/empty the event is silently dropped. Use select() to filter in matching events. Runs before summary_filter."),
+                        "summary_filter": propertyDef(type: "string", description: "jq expression to extract a compact summary from the raw payload for injection. Runs AFTER jq_filter. Full payload always retrievable via get_event_payload."),
                         "status": propertyDef(type: "string", description: "New status (active or paused)")
                     ],
                     required: ["subscription_id"]
@@ -543,6 +546,18 @@ final class MCPServer {
 
         var changes: [String] = []
 
+        if let secret = arguments["hmac_secret"]?.stringValue {
+            subscription.secretToken = secret
+            changes.append("hmac_secret -> (set)")
+        }
+        if let header = arguments["hmac_header"]?.stringValue {
+            subscription.hmacHeader = header
+            changes.append("hmac_header -> \(header)")
+        }
+        if let prompt = arguments["prompt"]?.stringValue {
+            subscription.prompt = prompt
+            changes.append("prompt -> \(prompt)")
+        }
         if let jqFilter = arguments["jq_filter"]?.stringValue {
             subscription.jqFilter = jqFilter
             changes.append("jq_filter -> \(jqFilter)")
