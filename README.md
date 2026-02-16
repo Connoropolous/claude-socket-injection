@@ -22,13 +22,19 @@ swift build -c release
 open .build/*/release/ClaudeWebhooks
 ```
 
-### 2. Set up a tunnel
+### 2. Install the plugin
+
+```bash
+claude plugin marketplace add https://github.com/Connoropolous/claude-notifications-for-agents
+```
+
+### 3. Set up a tunnel
 
 In Claude Code, run `/setup-tunnel` and follow the prompts. You'll need:
 - `cloudflared` installed (`brew install cloudflared`)
 - A Cloudflare account with a domain
 
-### 3. Subscribe to events
+### 4. Subscribe to events
 
 In Claude Code, run `/subscribe` and tell it what you want:
 
