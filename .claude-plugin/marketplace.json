@@ -1,0 +1,12 @@
+{
+  "name": "claude-webhooks",
+  "owner": {
+    "name": "Connor Turland"
+  },
+  "plugins": [
+    {
+      "name": "claude-webhooks",
+      "source": "./plugin"
+    }
+  ]
+}

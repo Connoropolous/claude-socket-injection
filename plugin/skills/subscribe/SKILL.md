@@ -1,6 +1,6 @@
 ---
 name: subscribe
-description: Set up a webhook subscription for this Claude Code session to receive real-time events from GitHub, Linear, Stripe, or any custom service
+description: Use when the user mentions subscribing to webhooks, listening for events, or waiting for events from external services like GitHub, Linear, Stripe, or any custom service
 ---
 
 # Webhook Subscription Setup
@@ -163,21 +163,39 @@ stripe webhook_endpoints create \
 Look up the docs with WebFetch first. If the service has an API for webhook registration,
 use it. Otherwise fall back to Strategy B.
 
-### Strategy B: Manual (fallback)
+### Strategy B: Browser via Claude in Chrome (fallback)
 
-If Strategy A is not possible (no CLI, no API key, auth failure), give the user the
-values to enter manually:
+If Strategy A is not possible (no CLI, no API key, auth failure), use the **Browser tool**
+(Claude in Chrome) to navigate to the service's webhook settings page and fill in the form
+yourself, with the user supervising.
+
+1. Open the webhook settings page in the browser:
+   - GitHub: `https://github.com/{owner}/{repo}/settings/hooks/new`
+   - Linear: `https://linear.app/settings/api/webhooks`
+   - Stripe: `https://dashboard.stripe.com/webhooks/create`
+
+2. Fill in the form fields:
+   - **URL**: `{public_webhook_url}`
+   - **Content type**: `application/json`
+   - **Secret**: `{hmac_secret}`
+   - **Events**: the specific events to subscribe to
+
+3. Submit the form. The user will supervise and approve each action.
+
+If the Browser tool is not available, tell the user:
+
+> "I need the Claude in Chrome extension to register this webhook for you via the browser.
+> Install it here: https://chromewebstore.google.com/publisher/anthropic/u308d63ea0533efcf7ba778ad42da7390
+>
+> Once installed, restart Claude Code and try `/subscribe` again."
+
+If they don't want to install it, fall back to giving them the values to enter manually:
 
 > Here's what to enter in the webhook settings:
 > - **URL**: `{public_webhook_url}`
 > - **Content type**: `application/json`
 > - **Secret**: `{hmac_secret}`
 > - **Events**: {events}
->
-> Settings pages:
-> - GitHub: `https://github.com/{owner}/{repo}/settings/hooks/new`
-> - Linear: `https://linear.app/settings/api/webhooks`
-> - Stripe: `https://dashboard.stripe.com/webhooks/create`
 
 Wait for the user to confirm they've registered it.
 
